@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">SubscriberListEasy</string>
+
+    <!-- SubscriberFragment-->
+    <string name="subscriber_email_hint">E-mail</string>
+    <string name="subscriber_name_hint">Subscribe\'s name</string>
+    <string name="subscriber_button">add</string>
+    <string name="subscriber_title">Subscriber</string>
+
+    <!-- -->
+
 </resources>
