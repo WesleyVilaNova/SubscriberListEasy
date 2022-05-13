@@ -16,10 +16,10 @@ interface SubscriberDAO {
     suspend fun update(subscriber: SubscriberEntity)
 
     @Query("DELETE FROM subscriberListEasy WHERE id = :id") // subscriberListEasy é o nome da tabela do banco de dados
-    suspend fun delete(id: Long)
+    fun delete(id: Long)
 
     @Query("DELETE FROM subscriberListEasy")
-    suspend fun delete()
+    fun delete()
 
     @Query("SELECT * FROM subscriberListEasy")
     fun getAll(): LiveData<List<SubscriberEntity>>
