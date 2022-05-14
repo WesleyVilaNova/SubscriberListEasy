@@ -19,7 +19,7 @@ class SubscriberViewModel(private val repository: ISubscriberRepository) : ViewM
     val messageEventData: LiveData<String>
         get() = _messageEventData
 
-    fun addOrUpdateSubscriber(name: String, email: String, id: Long) {
+    fun addOrUpdateSubscriber(name: String, email: String, id: Long) = viewModelScope.launch {
         if (id > 0) {
             updateSubscriber(id, name, email)
         } else {
@@ -41,12 +41,22 @@ class SubscriberViewModel(private val repository: ISubscriberRepository) : ViewM
         try {
             val id = repository.insertSubscriber(name, email)
             if (id > 0) {
-                _subscriberStateEventData.postValue(SubscriberState.Inserted)
+                _subscriberStateEventData.value = SubscriberState.Inserted
                 _messageEventData.value = R.string.subscriber_inserted_successfully.toString()
-                Log.i(TAG, "id menor que 0")
             }
         } catch (e: Exception) {
-            _messageEventData.value = R.string.subscriber_error_to_insert.toString()
+            Log.e(TAG, e.toString())
+        }
+    }
+
+    fun removeSubscriber(id: Long) = viewModelScope.launch {
+        try {
+            if (id == id) {
+                repository.deleteSubscriber(id)
+                _subscriberStateEventData.value = SubscriberState.Deleted
+                _messageEventData.value = R.string.subscriber_delete_successfully.toString()
+            }
+        } catch (e: Exception) {
             Log.e(TAG, e.toString())
         }
     }
@@ -54,6 +64,7 @@ class SubscriberViewModel(private val repository: ISubscriberRepository) : ViewM
     sealed class SubscriberState {
         object Inserted : SubscriberState()
         object Update : SubscriberState()
+        object Deleted : SubscriberState()
     }
 
     companion object {
