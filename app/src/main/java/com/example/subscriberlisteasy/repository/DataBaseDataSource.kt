@@ -30,7 +30,7 @@ class DataBaseDataSource(private val subscriberDAO: SubscriberDAO) : ISubscriber
         subscriberDAO.getAll()
     }
 
-    override suspend fun getAllSubscriber(): LiveData<List<SubscriberEntity>> {
+    override suspend fun getAllSubscriber(): List<SubscriberEntity> {
         return subscriberDAO.getAll()
     }
 }

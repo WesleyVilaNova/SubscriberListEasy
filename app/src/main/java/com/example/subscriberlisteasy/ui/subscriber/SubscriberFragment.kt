@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.subscriberlisteasy.R
 import com.example.subscriberlisteasy.data.db.dao.SubscriberDAO
 import com.example.subscriberlisteasy.data.db.database.DataBaseApp
@@ -49,8 +50,10 @@ class SubscriberFragment : Fragment(R.layout.subscriber_fragment) {
         viewModel.subscriberStateEventData.observe(viewLifecycleOwner) {
             when (it) {
                 is SubscriberViewModel.SubscriberState.Inserted -> {
-                    clearFields()
-                    hideKeyBoard()
+                    clearFields() // limpar os campos
+                    hideKeyBoard() // esconder o teclado
+
+                    findNavController().popBackStack()
                 }
             }
         }

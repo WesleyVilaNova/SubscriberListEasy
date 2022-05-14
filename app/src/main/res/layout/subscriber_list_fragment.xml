@@ -7,6 +7,7 @@
     tools:context=".uisubscriberlist.SubscriberListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_subscriber"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/subscriber_item"

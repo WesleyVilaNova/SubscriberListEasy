@@ -11,4 +11,9 @@
     <string name="button_add_user">Botão para adicionar novo usuário</string>
     <!-- -->
 
+    <!-- SubscriberList-->
+    <string name="subscriberList_title">Subscriber</string>
+
+
+
 </resources>
