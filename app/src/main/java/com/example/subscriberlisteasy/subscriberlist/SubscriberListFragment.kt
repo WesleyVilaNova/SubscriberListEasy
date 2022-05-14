@@ -1,4 +1,4 @@
-package com.example.subscriberlisteasy.uisubscriberlist
+package com.example.subscriberlisteasy.subscriberlist
 
 import android.os.Bundle
 import android.view.View
@@ -12,13 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.subscriberlisteasy.R
 import com.example.subscriberlisteasy.data.db.dao.SubscriberDAO
 import com.example.subscriberlisteasy.data.db.database.DataBaseApp
-import com.example.subscriberlisteasy.data.db.entity.SubscriberEntity
 import com.example.subscriberlisteasy.extension.navigateWithAnimations
 import com.example.subscriberlisteasy.repository.DataBaseDataSource
 import com.example.subscriberlisteasy.repository.ISubscriberRepository
-import com.example.subscriberlisteasy.uisubscriberlist.interfaces.IOnClick
 
-class SubscriberListFragment : Fragment(R.layout.subscriber_list_fragment), IOnClick {
+class SubscriberListFragment : Fragment(R.layout.subscriber_list_fragment) {
 
     lateinit var recyclerView: RecyclerView
     lateinit var fabAddSubscriber: View
@@ -47,7 +45,12 @@ class SubscriberListFragment : Fragment(R.layout.subscriber_list_fragment), IOnC
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         viewModel.allSubscribersEvent.observe(viewLifecycleOwner) {
-            val subscriberListAdapter = SubscriberListAdapter(this)
+            val subscriberListAdapter = SubscriberListAdapter().apply {
+                onItemClick = { subscriber ->
+                    val directions = SubscriberListFragmentDirections.actionSubscriberListFragmentToSubscriberFragment2(subscriber)
+                    findNavController().navigateWithAnimations(directions)
+                }
+            }
             subscriberListAdapter.submitList(it)
             recyclerView.adapter = subscriberListAdapter
         }
@@ -60,10 +63,7 @@ class SubscriberListFragment : Fragment(R.layout.subscriber_list_fragment), IOnC
 
     private fun configureViewListeners() {
         fabAddSubscriber.setOnClickListener {
-            findNavController().navigateWithAnimations(R.id.subscriberFragment)
+            findNavController().navigateWithAnimations(R.id.action_subscriberListFragment_to_subscriberFragment2)
         }
-    }
-
-    override fun onClick(click: SubscriberEntity?) {
     }
 }

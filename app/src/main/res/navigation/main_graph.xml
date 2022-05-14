@@ -9,11 +9,21 @@
         android:id="@+id/subscriberFragment"
         android:name="com.example.subscriberlisteasy.ui.subscriber.SubscriberFragment"
         android:label="@string/subscriber_title"
-        tools:layout="@layout/subscriber_fragment" />
+        tools:layout="@layout/subscriber_fragment" >
+        <argument
+            android:name="subscriber"
+            app:argType="com.example.subscriberlisteasy.data.db.entity.SubscriberEntity"
+            android:defaultValue="@null"
+            app:nullable="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/subscriberListFragment"
-        android:name="com.example.subscriberlisteasy.uisubscriberlist.SubscriberListFragment"
+        android:name="com.example.subscriberlisteasy.subscriberlist.SubscriberListFragment"
         android:label="@string/subscriberList_title"
-        tools:layout="@layout/subscriber_list_fragment" />
+        tools:layout="@layout/subscriber_list_fragment" >
+        <action
+            android:id="@+id/action_subscriberListFragment_to_subscriberFragment2"
+            app:destination="@id/subscriberFragment" />
+    </fragment>
 </navigation>

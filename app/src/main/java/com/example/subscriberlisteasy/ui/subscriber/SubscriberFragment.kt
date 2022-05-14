@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.subscriberlisteasy.R
 import com.example.subscriberlisteasy.data.db.dao.SubscriberDAO
 import com.example.subscriberlisteasy.data.db.database.DataBaseApp
@@ -35,12 +36,20 @@ class SubscriberFragment : Fragment(R.layout.subscriber_fragment) {
         }
     }
 
+    private val args: SubscriberFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         input_name = view.findViewById(R.id.input_name)
         input_email = view.findViewById(R.id.input_email)
         button_subscriber = view.findViewById(R.id.button_subscriber)
+
+        args.subscriber?.let { subscriber ->
+            button_subscriber.text = getString(R.string.subscriber_button_update)
+            input_name.setText(subscriber.name)
+            input_email.setText(subscriber.email)
+        }
 
         observeEvents()
         setListeners()
@@ -52,7 +61,11 @@ class SubscriberFragment : Fragment(R.layout.subscriber_fragment) {
                 is SubscriberViewModel.SubscriberState.Inserted -> {
                     clearFields() // limpar os campos
                     hideKeyBoard() // esconder o teclado
-
+                    findNavController().popBackStack()
+                }
+                is SubscriberViewModel.SubscriberState.Update -> {
+                    clearFields()
+                    hideKeyBoard()
                     findNavController().popBackStack()
                 }
             }
@@ -80,7 +93,7 @@ class SubscriberFragment : Fragment(R.layout.subscriber_fragment) {
             val name = input_name.text.toString()
             val email = input_email.text.toString()
 
-            viewModel.addSubscriber(name, email)
+            viewModel.addOrUpdateSubscriber(name, email, args.subscriber?.id ?: 0)
         }
     }
 }

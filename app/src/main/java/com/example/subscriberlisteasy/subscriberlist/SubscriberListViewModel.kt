@@ -1,4 +1,4 @@
-package com.example.subscriberlisteasy.uisubscriberlist
+package com.example.subscriberlisteasy.subscriberlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +11,8 @@ import kotlinx.coroutines.launch
 class SubscriberListViewModel(private val repository: ISubscriberRepository) : ViewModel() {
 
     private val _allSubscribersEvent = MutableLiveData<List<SubscriberEntity>>()
-    val allSubscribersEvent: LiveData<List<SubscriberEntity>> get() = _allSubscribersEvent
+    val allSubscribersEvent: LiveData<List<SubscriberEntity>>
+        get() = _allSubscribersEvent
 
     fun getSubscriber() = viewModelScope.launch {
         _allSubscribersEvent.postValue(repository.getAllSubscriber())
